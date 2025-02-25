@@ -31,10 +31,13 @@ class HomeScreen extends StatelessWidget {
             //Todo: CardSwiper
             CardSwiper(movies: moviesProvider.onDisplayMovies),
             //Todo: Listado Horizontal de peliculas
-            const MoviesSlider(),
-            const MoviesSlider(),
-            const MoviesSlider(),
-            const MoviesSlider(),
+             MoviesSlider(
+              movies: moviesProvider.popularMovies,
+              title: 'Populares!!'
+            ),
+            // const MoviesSlider(),
+            // const MoviesSlider(),
+            // const MoviesSlider(),
           
           ],
         ),
