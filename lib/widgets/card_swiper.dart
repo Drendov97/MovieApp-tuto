@@ -40,9 +40,9 @@ if(this.movies.length == 0){
         itemHeight: size.height * 0.4,
         itemBuilder: (BuildContext context, int index){
           final movie=movies[index];
-          print(  movie.fullPosterImg);
+          
           return GestureDetector(
-            onTap: () => Navigator.pushNamed(context, 'details', arguments:'movie'),
+            onTap: () => Navigator.pushNamed(context, 'details', arguments:movie),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child:  FadeInImage(

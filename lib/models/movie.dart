@@ -43,6 +43,16 @@ class Movie {
          
     }
 
+     get fullBackdropPath {
+      if(this.posterPath != null){
+        return 'https://image.tmbd.org/t/p/w500${this.backdropPath}';
+      }
+    else{
+      return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcPIWPuk-G3s-umWaTiMjmtWv-wsxQjftaBw&s';
+    }
+         
+    }
+
     factory Movie.fromJson(String str) => Movie.fromMap(json.decode(str));
 
     
