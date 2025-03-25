@@ -1,26 +1,58 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_movieapp/providers/movies_providers.dart';
+import 'package:provider/provider.dart';
+
+import '../models/models.dart';
 
 class CastingCards extends StatelessWidget {
-  const CastingCards({super.key});
+
+  final int movieID;
+  const CastingCards(this.movieID);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom:30),
-      width: double.infinity,
-      height: 180,
+
+    final moviesProvider = Provider.of<MoviesProvider>(context, listen: false);
+
+    return FutureBuilder(
+      future: moviesProvider.getMovieCast(movieID),
+     
+      builder: (_, AsyncSnapshot<List<Cast>> snapshot) {
+
+        if(!snapshot.hasData){
+          return Container(
+            height: 180,
+            child: CupertinoActivityIndicator(),
+            );
+        }
+
+        final List<Cast> cast = snapshot.data!;
+
+        return Container(
+                margin: EdgeInsets.only(bottom:30),
+                width: double.infinity,
+                height: 180,
       
-      child: ListView.builder(
-        itemCount: 10,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (BuildContext context, int index) =>_CastCard()
-      ),
+                child: ListView.builder(
+                itemCount: 10,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, int index) =>_CastCard(cast[index]),
+                ),
+              );
+      },
     );
+
+    
   }
 }
 
 class _CastCard extends StatelessWidget {
-  const _CastCard({super.key});
+ 
+
+  final Cast actor;
+   const _CastCard(this.actor);
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +67,8 @@ class _CastCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: FadeInImage(
               placeholder: AssetImage('assets/no-image.jpg'),
-               image: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcPIWPuk-G3s-umWaTiMjmtWv-wsxQjftaBw&s'),
-               height: 140,
+               image: NetworkImage('https://www.themoviedb.org/t/p/${actor.fullProfilePath}'),
+               height: 120,
                width: 100,
                fit: BoxFit.cover,
                ),
@@ -44,7 +76,7 @@ class _CastCard extends StatelessWidget {
 
           SizedBox(height: 5),
           Text(
-            'william Defoe',
+            actor.name,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
